@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
+    android:layout_marginBottom="10dp"
+
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative6"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imgpresentation"
+            android:background="@drawable/presentation"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/imgmusic"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imgmusic"
+            android:background="@drawable/mediaplayer"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/imgpresentation" />
+
+    </RelativeLayout>
+</RelativeLayout>

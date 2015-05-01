@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red">#990000</color>
+    <color name="green">#009900</color>
+    <color name="blue">#000099</color>
+    <color name="orange">#FF9900</color>
+    <color name="headercolor">#303f9f</color>
+    <color name="screenback">#fafafa</color>
+    <color name="buttoncolor">#2196f3</color>
+    <color name="stscolor">#2196f3</color>
+    <color name="drawbleselect">#bbdefb</color>
+
+    <color name="drawertoselect">#ffebee</color>
+    <color name="drawerbox">#942A3E</color>
+
+</resources>

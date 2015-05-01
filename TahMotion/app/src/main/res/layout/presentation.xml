@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/appbackground"
+    android:clickable="true">
+
+
+    <RelativeLayout
+        android:id="@+id/mainrelative"
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        android:gravity="center_vertical|center_horizontal">
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/swiperelative"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/imgforword"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="15dp"
+            android:alpha="0.2"
+            android:background="@drawable/right_arrow"
+            android:layout_alignTop="@+id/imgreverse"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:id="@+id/imgreverse"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:alpha="0.2"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/left_arrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/imgplaypause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Swipe to Navigate"
+            android:textColor="#ffffff" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:alpha="0.2"
+            android:background="@drawable/up_arrow"
+            android:layout_above="@+id/imgforword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="56dp" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="40dp"
+            android:layout_height="80dp"
+            android:alpha="0.2"
+            android:background="@drawable/down_arrow"
+            android:layout_below="@+id/imgreverse"
+            android:layout_alignStart="@+id/imageView3"
+            android:layout_marginTop="53dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
