@@ -1,18 +1,4 @@
-/*
- * Copyright (C) 2013 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package bleservice;
 
@@ -35,13 +21,126 @@ import java.util.List;
 import java.util.UUID;
 
 import util.Constant;
+/**
+ * //
+ //
+ //  Created by Shailesh on 29/04/2015.
+ //  Copyright (c) 2014 www.tah.io
+ //  All rights reserved.
+
+ */
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothLeService extends Service {
-    private final static String TAG = BluetoothLeService.class.getSimpleName();
+public class TAHble extends Service {
+    //////////////////ASCII CONSTANT/////////////////
+    //key press
+    public static int KEY_UP_ARROW = 218;
+    public static int KEY_DOWN_ARROW = 217;
+    public static int KEY_LEFT_ARROW = 216;
+    public static int KEY_RIGHT_ARROW = 215;
+
+    // Trakpad
+    public static int Up = 256;
+    public static int Down = 257;
+    public static int Right = 258;
+    public static int Left = 259;
+
+    // Volume
+    public static int VolumeUp = 260;
+    public static int VolumeDown = 261;
+// Tah Keyboard Modifiers
+
+    public static int A = 65;
+    public static int a = 97;
+    public static int B = 66;
+    public static int b = 98;
+    public static int C = 67;
+    public static int c = 99;
+    public static int D = 68;
+    public static int d = 100;
+    public static int E = 69;
+    public static int e = 101;
+    public static int F = 70;
+    public static int f = 102;
+    public static int G = 71;
+    public static int g = 103;
+    public static int H = 72;
+    public static int h = 104;
+    public static int I = 73;
+    public static int i = 105;
+    public static int J = 74;
+    public static int j = 106;
+    public static int K = 75;
+    public static int k = 107;
+    public static int L = 76;
+    public static int l = 108;
+    public static int M = 77;
+    public static int m = 109;
+    public static int N = 78;
+    public static int n = 110;
+    public static int O = 79;
+    public static int o = 111;
+    public static int P = 80;
+    public static int p = 112;
+    public static int Q = 81;
+    public static int q = 113;
+    public static int R = 82;
+    public static int r = 114;
+    public static int S = 83;
+    public static int s = 115;
+    public static int T = 84;
+    public static int t = 116;
+    public static int U = 85;
+    public static int u = 117;
+    public static int V = 86;
+    public static int v = 118;
+    public static int W = 87;
+    public static int w = 119;
+    public static int X = 88;
+    public static int x = 120;
+    public static int Y = 89;
+    public static int y = 121;
+    public static int Z = 90;
+    public static int z = 122;
+
+
+    public static int KEY_LEFT_CTRL = 128;
+    public static int KEY_LEFT_SHIFT = 129;
+    public static int KEY_LEFT_ALT = 130;
+    public static int KEY_LEFT_GUI = 131;
+    public static int KEY_RIGHT_CTRL = 132;
+    public static int KEY_RIGHT_SHIFT = 133;
+    public static int KEY_RIGHT_ALT = 134;
+    public static int KEY_RIGHT_GUI = 135;
+    public static int KEY_SPACE = 32;
+    public static int KEY_BACKSPACE = 178;
+    public static int KEY_TAB = 179;
+    public static int KEY_RETURN = 176;
+    public static int KEY_ESC = 177;
+    public static int KEY_INSERT = 209;
+    public static int KEY_DELETE = 212;
+    public static int KEY_PAGE_UP = 211;
+    public static int KEY_PAGE_DOWN = 214;
+    public static int KEY_HOME = 210;
+    public static int KEY_END = 213;
+    public static int KEY_CAPS_LOCK = 193;
+    public static int KEY_F1 = 194;
+    public static int KEY_F2 = 195;
+    public static int KEY_F3 = 196;
+    public static int KEY_F4 = 197;
+    public static int KEY_F5 = 198;
+    public static int KEY_F6 = 199;
+    public static int KEY_F7 = 200;
+    public static int KEY_F8 = 201;
+    public static int KEY_F9 = 202;
+    public static int KEY_F10 = 203;
+    public static int KEY_F11 = 204;
+    public static int KEY_F12 = 205;
+
+    private final static String TAG = TAHble.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -70,7 +169,7 @@ public class BluetoothLeService extends Service {
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            //connect=02 sleep and wakeup=60 disconnected 80
+            //status==connect=02 sleep and wakeup=60 disconnected=80
             if (status == 8) {
                 sleepWakeup = true;
             } else {
@@ -130,19 +229,6 @@ public class BluetoothLeService extends Service {
                                  final BluetoothGattCharacteristic characteristic) {
         final Intent intent = new Intent(action);
 
-        // For all other profiles, writes the data formatted in HEX.
-        //.getvalue get all values including raw value also like hex value of string
-        //its better user .getstringvalue
-
-//            //old logic
-//            final byte[] data = characteristic.getValue();
-//            if (data != null && data.length > 0) {
-//                final StringBuilder stringBuilder = new StringBuilder(data.length);
-//                for (byte byteChar : data)
-//                    stringBuilder.append(String.format("%02X ", byteChar));
-//                intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
-//            }
-
         //using get string value
         String strdata = characteristic.getStringValue(0);
         intent.putExtra(EXTRA_DATA, new String(strdata));
@@ -151,8 +237,8 @@ public class BluetoothLeService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public BluetoothLeService getService() {
-            return BluetoothLeService.this;
+        public TAHble getService() {
+            return TAHble.this;
         }
     }
 
@@ -229,13 +315,7 @@ public class BluetoothLeService extends Service {
         }
 // We want to directly connect to the device, so we are setting the autoConnect
 // parameter to false.
-        //        System.out.println("bond state=="+device.getBondState());
-//        System.out.println("pairing confirmation state=="+device.setPairingConfirmation(true));
-//        System.out.println("bond state=="+device.getBondState());
-//        System.out.println("pairing confirmation state=="+device.setPairingConfirmation(true));
-//        String pind="654321";
-//        byte pin[]=pind.getBytes();
-//        device.setPin(pin);
+
         mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
@@ -330,7 +410,7 @@ public class BluetoothLeService extends Service {
 
     }
 
-    // same write method with notification on
+    //  write method with notification
     public boolean writeCharacteristicWithRes(String servicuid, String characteruid, String data, boolean notification) {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");
@@ -506,13 +586,13 @@ public class BluetoothLeService extends Service {
     public boolean TAHTrackPad(int Swipe) {
         try {
             String str1 = "";
-            if (Swipe == TahConstant.Up) {
+            if (Swipe == Up) {
                 str1 = "0,0,0,256M";
-            } else if (Swipe == TahConstant.Down) {
+            } else if (Swipe == Down) {
                 str1 = "0,0,0,257M";
-            } else if (Swipe == TahConstant.Right) {
+            } else if (Swipe == Right) {
                 str1 = "0,0,0,258M";
-            } else if (Swipe == TahConstant.Left) {
+            } else if (Swipe == Left) {
                 str1 = "0,0,0,259M";
             }
             BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString(Constant.ServiceUid));
@@ -525,5 +605,45 @@ public class BluetoothLeService extends Service {
         }
 
     }
+////////////////////////// We need to add following code in Activity or Fragment to get the broadcast data () i.e broadcast receiver /////////////////////////
+//////////intent filter////////////
+//    private static IntentFilter makeGattUpdateIntentFilter() {
+//        final IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(TAHble.ACTION_GATT_CONNECTED);
+//        intentFilter.addAction(TAHble.ACTION_GATT_DISCONNECTED);
+//        intentFilter.addAction(TAHble.ACTION_GATT_SERVICES_DISCOVERED);
+//        intentFilter.addAction(TAHble.ACTION_DATA_AVAILABLE);
 
+//        return intentFilter;
+//    }
+
+    ////////////Receiver here//////////
+//    // Handles various events fired by the Service.
+//    // ACTION_GATT_CONNECTED: connected to a GATT server.
+//    // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
+//    // ACTION_GATT_SERVICES_DISCOVERED: discovered GATT services.
+//    // ACTION_DATA_AVAILABLE: received data from the device.  This can be a result of read
+//    //                        or notification operations.
+//    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, final Intent intent) {
+//            final String action = intent.getAction();
+//            if (TAHble.ACTION_GATT_CONNECTED.equals(action)) {
+//                mConnected = true;
+//                updateConnectionState(mConnected);
+//            } else if (TAHble.ACTION_GATT_DISCONNECTED.equals(action)) {
+//                mConnected = false;
+//                if (TAHble.sleepWakeup) {
+//                    updateConnectionState(mConnected);
+//                }
+//                //invalidateOptionsMenu();
+//            } else if (TAHble.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+//                // Show all the supported services and characteristics on the user interface.
+//                // displayGattServices(mBluetoothLeService.getSupportedGattServices());
+//            } else if (TAHble.ACTION_DATA_AVAILABLE.equals(action)) {
+//                // final String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
+//
+//            }
+//        }
+//    };
 }

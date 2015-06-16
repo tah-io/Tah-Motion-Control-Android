@@ -1,66 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginBottom="10dp"
     android:background="@drawable/appbackground"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
+    android:clickable="true">
 
 
     <RelativeLayout
+        android:id="@+id/mainrelative"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
-        android:id="@+id/mainrelative"
-        android:gravity="center_vertical|center_horizontal"
-        >
+        android:gravity="center_vertical|center_horizontal">
 
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/mainrel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/relative6"
-        android:layout_marginTop="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_marginTop="35dp">
 
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginRight="15dp"
-            android:id="@+id/imgforword"
-            android:background="@drawable/forward"
-
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true" />
-
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/imgreverse"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/reverse"
-
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true" />
-
-        <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:id="@+id/imgplaypause"
-            android:background="@drawable/playpause"
+        <RelativeLayout
+            android:id="@+id/relative6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="35dp">
 
+            <ImageView
+                android:id="@+id/imgforword"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+android:layout_marginLeft="50dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/forward"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imgplaypause" />
+
+            <ImageView
+                android:id="@+id/imgreverse"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/reverse"
+                android:layout_alignTop="@+id/imgforword"
+                android:layout_toStartOf="@+id/imgplaypause" />
+
+            <ImageView
+                android:id="@+id/imgplaypause"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/playpause" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/volumestatus"
+            android:layout_width="fill_parent"
+            android:layout_height="90dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="35dp"
+            android:background="#ffffff"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/upwhite"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginRight="15dp"
+                android:background="@drawable/upwhite" />
+
+            <ImageView
+                android:id="@+id/upred"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginRight="15dp"
+                android:background="@drawable/upred" />
+
+            <ImageView
+                android:id="@+id/downwhite"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/downwhite" />
+
+            <ImageView
+                android:id="@+id/downred"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/downred" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Tilt to change volume"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/imgvolumecantrol"
         android:layout_width="65dp"
         android:layout_height="65dp"
+        android:layout_below="@+id/mainrel"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
-        android:id="@+id/imgvolumecantrol"
-        android:layout_below="@+id/relative6"
-        android:background="@drawable/volup"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/volup" />
+
+    <RelativeLayout
+        android:id="@+id/manualVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgvolumecantrol"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <SeekBar
+            android:id="@+id/seekbarvolcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="50dp" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/seekbarvolcon"
+            android:layout_below="@+id/seekbarvolcon"
+            android:background="@drawable/upwhite" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignStart="@+id/seekbarvolcon"
+            android:layout_alignTop="@+id/imageView5"
+            android:background="@drawable/downwhite" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView5"
+            android:layout_centerHorizontal="true"
+            android:text="Change volume"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </RelativeLayout>

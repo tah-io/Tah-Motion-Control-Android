@@ -8,11 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import bleservice.TahConstant;
+import bleservice.TAHble;
 import util.SwipeDetector;
 
 /**
- * Created by adityamathur on 29/04/15.
+ * //
+ //
+ //  Created by Shailesh on 29/04/2015.
+ //  Copyright (c) 2014 www.tah.io
+ //  All rights reserved.
+
  */
 public class Presentation extends Fragment {
     Context context;
@@ -27,20 +32,16 @@ public class Presentation extends Fragment {
 
             public void SwipeEventDetected(View v, SwipeDetector.SwipeTypeEnum swipeType) {
                 if (swipeType == SwipeDetector.SwipeTypeEnum.LEFT_TO_RIGHT) {
-                    System.out.println("LEFT TO RIGHT");
-                    Selector.mBluetoothLeService.TahKeyPress(TahConstant.KEY_RIGHT_ARROW);
+                    Selector.mBluetoothLeService.TahKeyPress(TAHble.KEY_RIGHT_ARROW);
                 }
                 if (swipeType == SwipeDetector.SwipeTypeEnum.RIGHT_TO_LEFT) {
-                    System.out.println("RIGHT TO LEFT");
-                    Selector.mBluetoothLeService.TahKeyPress(TahConstant.KEY_LEFT_ARROW);
+                    Selector.mBluetoothLeService.TahKeyPress(TAHble.KEY_LEFT_ARROW);
                 }
                 if (swipeType == SwipeDetector.SwipeTypeEnum.TOP_TO_BOTTOM) {
-                    System.out.println("TOP B");
-                    Selector.mBluetoothLeService.TahKeyPress(TahConstant.KEY_DOWN_ARROW);
+                    Selector.mBluetoothLeService.TahKeyPress(TAHble.KEY_DOWN_ARROW);
                 }
                 if (swipeType == SwipeDetector.SwipeTypeEnum.BOTTOM_TO_TOP) {
-                    System.out.println("B TO T");
-                    Selector.mBluetoothLeService.TahKeyPress(TahConstant.KEY_UP_ARROW);
+                    Selector.mBluetoothLeService.TahKeyPress(TAHble.KEY_UP_ARROW);
                 }
 
             }

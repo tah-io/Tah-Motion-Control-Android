@@ -34,7 +34,7 @@ import android.widget.Toast;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import bleservice.BluetoothLeService;
+import bleservice.TAHble;
 import util.Constant;
 import util.PreferenceHelper;
 
@@ -49,7 +49,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     View mConnectionStatus;
     private boolean mConnected = false;
     private FragmentManager fragmentManager;
-    public static BluetoothLeService mBluetoothLeService;
+    public static TAHble mBluetoothLeService;
     //action bar and drawer new changes
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -66,7 +66,8 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            activity = Selector.this;
+            mBluetoothLeService = ((TAHble.LocalBinder) service).getService();
             if (!mBluetoothLeService.initialize()) {
 //                    Log.e(TAG, "Unable to initialize Bluetooth");
 //                    finish();
@@ -86,7 +87,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         setContentView(R.layout.mainact);
         arrayList = new ArrayList<String>();
         context = Selector.this;
-        activity = Selector.this;
         mConnectionStatus = (View) findViewById(R.id.connectionstatus);
         txtProfileName = (TextView) findViewById(R.id.userName);
         txtDeviceAddress = (TextView) findViewById(R.id.desc);
@@ -131,7 +131,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
 
         if (savedInstanceState == null) {
-            replaceFragment(new MacWindow(), 0);
+            replaceFragment(new MacWindow(), 0,"mac");
         }
 
         Intent intent = getIntent();
@@ -145,7 +145,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
             PreferenceHelper.storeTahName(Selector.this, mDeviceName);
         }
         //connect to service
-        Intent gattServiceIntent = new Intent(Selector.this, BluetoothLeService.class);
+        Intent gattServiceIntent = new Intent(Selector.this, TAHble.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
 
@@ -237,10 +237,10 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        intentFilter.addAction(TAHble.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(TAHble.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(TAHble.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(TAHble.ACTION_DATA_AVAILABLE);
 
 
         return intentFilter;
@@ -256,19 +256,19 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         @Override
         public void onReceive(Context context, final Intent intent) {
             final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+            if (TAHble.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
                 updateConnectionState(mConnected);
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+            } else if (TAHble.ACTION_GATT_DISCONNECTED.equals(action)) {
                 mConnected = false;
-                if (BluetoothLeService.sleepWakeup) {
+                if (TAHble.sleepWakeup) {
                     updateConnectionState(mConnected);
                 }
                 //invalidateOptionsMenu();
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+            } else if (TAHble.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // Show all the supported services and characteristics on the user interface.
                 // displayGattServices(mBluetoothLeService.getSupportedGattServices());
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+            } else if (TAHble.ACTION_DATA_AVAILABLE.equals(action)) {
                // final String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
 
             }
@@ -294,7 +294,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
 
     //set status of connection using UI Thread
-    private void replaceFragment(final Fragment targetFragment, final int position) {
+    private void replaceFragment(final Fragment targetFragment, final int position, final String msg) {
         //close drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
@@ -319,7 +319,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                                 String packageNameAsTag = ((Object) targetFragment).getClass().getCanonicalName();
-                                System.out.println("package name is :: " + packageNameAsTag);
+                               // System.out.println("package name is :: " + packageNameAsTag);
 
                                 if (fragmentManager.findFragmentByTag(packageNameAsTag) == null) {
                                     fragmentTransaction.add(R.id.content_frame, targetFragment, packageNameAsTag);
@@ -327,11 +327,12 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                                     Bundle bundle = new Bundle();
                                     bundle.putString(Constant.EXTRAS_DEVICE_NAME, mDeviceName);
                                     bundle.putString(Constant.EXTRAS_DEVICE_ADDRESS, mDeviceAddress);
+                                    bundle.putString("MAC", msg);
                                     targetFragment.setArguments(bundle);
-                                    System.out.println(((Object) targetFragment).getClass().getSimpleName() + " added to backstack");
+                                   // System.out.println(((Object) targetFragment).getClass().getSimpleName() + " added to backstack");
                                     fragmentTransaction.commit();
                                 } else {
-                                    System.out.println("this fragment is already in the backstack");
+                                   // System.out.println("this fragment is already in the backstack");
                                 }
                             } else {
 //            ToastUtil.displayToast(this, this.getString(R.string.toast_working));
@@ -354,8 +355,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     //change fragment
     public void changeFragment(Fragment targetFragment) {
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        System.out.println("Count==================" + fragmentManager.getBackStackEntryCount());
         if (targetFragment != null) {
             fragmentManager = getSupportFragmentManager();
             fragmentManager.addOnBackStackChangedListener(this);
@@ -385,15 +384,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
     private void selectItem(int position) {
 
-        // update the main content by replacing fragments
-//        android.app.Fragment fragment = new PlanetFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-//        fragment.setArguments(args);
-//
-//        android.app.FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-//
 //        // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
@@ -424,22 +414,19 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
     @Override
     public void onBackPressed() {
-        // Selector.this.finish();
         super.onBackPressed();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragmentManager.getBackStackEntryCount()==0){
+            Selector.this.finish();
+        }
+
     }
 
-    //need to impliment logic here
     @Override
     public void onBackStackChanged() {
 
     }
-
-
     //method to clear fragment
-
-    /**
-     * Function to clear fragment backstack but one
-     */
     public void clearFragmentBackStack() {
         try {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -479,19 +466,19 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
             switch (position) {
                 case 0:
-                    replaceFragment(new MacWindow(), position);
+                    replaceFragment(new MacWindow(), position,"mac");
                     break;
                 case 1:
-                    replaceFragment(new MacWindow(), position);
+                    replaceFragment(new MacWindow(), position,"");
                     break;
                 case 2:
-                    replaceFragment(new SettingFragment(), position);
+                    replaceFragment(new Video(), position,"");
                     break;
                 case 3:
-                    replaceFragment(new SettingFragment(), position);
+                    replaceFragment(new SettingFragment(), position,"");
                     break;
                 case 4:
-                    replaceFragment(new ShareFragment(), position);
+                    replaceFragment(new ShareFragment(), position,"");
                     break;
             }
 
